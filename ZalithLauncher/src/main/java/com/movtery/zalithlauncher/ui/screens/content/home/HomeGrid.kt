@@ -94,6 +94,7 @@ private sealed interface HomeCardOperation {
     data object AddWidget : HomeCardOperation
     data object AddServerCard : HomeCardOperation
     data object AddVersionCard : HomeCardOperation
+    data object AddRamCard : HomeCardOperation
 }
 
 /**
@@ -307,6 +308,10 @@ fun HomeGrid(
         onAddLibraryCard = {
             state.addCard(HomeCards.libraryCardType(), UUID.randomUUID().toString())
             operation = HomeCardOperation.None
+        },
+        onAddRamCard = {
+            state.addCard(HomeCards.ramCardType(), UUID.randomUUID().toString())
+            operation = HomeCardOperation.None
         }
     )
 }
@@ -315,7 +320,8 @@ fun HomeGrid(
 private fun HomeCardOperation(
     operation: HomeCardOperation,
     onChange: (HomeCardOperation) -> Unit,
-    onAddLibraryCard: () -> Unit
+    onAddLibraryCard: () -> Unit,
+    onAddRamCard: () -> Unit
 ) {
     when (operation) {
         is HomeCardOperation.None -> {}
@@ -330,7 +336,8 @@ private fun HomeCardOperation(
                 onDismiss = { onChange(HomeCardOperation.None) },
                 onAddVersion = { onChange(HomeCardOperation.AddVersionCard) },
                 onAddServer = { onChange(HomeCardOperation.AddServerCard) },
-                onAddLibrary = onAddLibraryCard
+                onAddLibrary = onAddLibraryCard,
+                onAddRam = onAddRamCard
             )
         }
         is HomeCardOperation.AddVersionCard -> {
@@ -421,7 +428,8 @@ private fun AddWidgetDialog(
     onDismiss: () -> Unit,
     onAddVersion: () -> Unit,
     onAddServer: () -> Unit,
-    onAddLibrary: () -> Unit
+    onAddLibrary: () -> Unit,
+    onAddRam: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -449,6 +457,19 @@ private fun AddWidgetDialog(
                         Text(stringResource(R.string.home_widget_add_server_title))
                         Text(
                             stringResource(R.string.home_widget_add_server_description),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                TextButton(onClick = onAddRam, modifier = Modifier.fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Text(stringResource(R.string.home_widget_add_ram))
+                        Text(
+                            stringResource(R.string.home_widget_add_ram_description),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
