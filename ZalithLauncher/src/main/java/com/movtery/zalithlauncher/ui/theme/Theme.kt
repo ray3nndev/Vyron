@@ -503,6 +503,74 @@ private val urbanAshDark = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDark.urbanAsh,
 )
 
+// Vyron's independent soft-monochrome palette. Keep semantic error colors from the
+// neutral base scheme while replacing the accent and all main surfaces with warm greys.
+private val vyronMonoLight = urbanAshLight.copy(
+    primary = Color(0xFF55534F),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFFE3E1DB),
+    onPrimaryContainer = Color(0xFF252421),
+    secondary = Color(0xFF65635E),
+    onSecondary = Color(0xFFFFFFFF),
+    secondaryContainer = Color(0xFFE9E7E1),
+    onSecondaryContainer = Color(0xFF302F2B),
+    tertiary = Color(0xFF77746E),
+    onTertiary = Color(0xFFFFFFFF),
+    tertiaryContainer = Color(0xFFE5E2DC),
+    onTertiaryContainer = Color(0xFF302F2B),
+    background = Color(0xFFF5F4F0),
+    onBackground = Color(0xFF242321),
+    surface = Color(0xFFF8F7F4),
+    onSurface = Color(0xFF242321),
+    surfaceVariant = Color(0xFFE8E6E0),
+    onSurfaceVariant = Color(0xFF55534E),
+    outline = Color(0xFF77746E),
+    outlineVariant = Color(0xFFD1CEC7),
+    inverseSurface = Color(0xFF2D2C29),
+    inverseOnSurface = Color(0xFFF4F2ED),
+    inversePrimary = Color(0xFFD6D3CC),
+    surfaceDim = Color(0xFFE3E1DB),
+    surfaceBright = Color(0xFFFBFAF7),
+    surfaceContainerLowest = Color(0xFFFFFFFF),
+    surfaceContainerLow = Color(0xFFF2F0EB),
+    surfaceContainer = Color(0xFFECEAE5),
+    surfaceContainerHigh = Color(0xFFE5E3DE),
+    surfaceContainerHighest = Color(0xFFDEDBD5)
+)
+
+private val vyronMonoDark = urbanAshDark.copy(
+    primary = Color(0xFFC8C6C0),
+    onPrimary = Color(0xFF242321),
+    primaryContainer = Color(0xFF454440),
+    onPrimaryContainer = Color(0xFFF2F0EB),
+    secondary = Color(0xFFB8B6B0),
+    onSecondary = Color(0xFF292825),
+    secondaryContainer = Color(0xFF383734),
+    onSecondaryContainer = Color(0xFFE7E5DF),
+    tertiary = Color(0xFFA7A49E),
+    onTertiary = Color(0xFF292825),
+    tertiaryContainer = Color(0xFF403F3B),
+    onTertiaryContainer = Color(0xFFEAE8E2),
+    background = Color(0xFF171717),
+    onBackground = Color(0xFFECEBE7),
+    surface = Color(0xFF1D1D1D),
+    onSurface = Color(0xFFECEBE7),
+    surfaceVariant = Color(0xFF343330),
+    onSurfaceVariant = Color(0xFFC4C1BA),
+    outline = Color(0xFF8C8982),
+    outlineVariant = Color(0xFF494742),
+    inverseSurface = Color(0xFFECEBE7),
+    inverseOnSurface = Color(0xFF2A2926),
+    inversePrimary = Color(0xFF5B5954),
+    surfaceDim = Color(0xFF171717),
+    surfaceBright = Color(0xFF3B3A36),
+    surfaceContainerLowest = Color(0xFF111111),
+    surfaceContainerLow = Color(0xFF222220),
+    surfaceContainer = Color(0xFF282826),
+    surfaceContainerHigh = Color(0xFF30302D),
+    surfaceContainerHighest = Color(0xFF383733)
+)
+
 private val verdantDawnLight = lightColorScheme(
     primary = primaryLight.verdantDawn,
     onPrimary = onPrimaryLight.verdantDawn,
@@ -630,7 +698,7 @@ fun ZalithLauncherTheme(
                 ColorThemeType.GLACIER -> glacierDark
                 ColorThemeType.VERDANTFIELD -> verdantFieldDark
                 ColorThemeType.URBAN_ASH -> urbanAshDark
-                ColorThemeType.VYRON_MONO -> urbanAshDark
+                ColorThemeType.VYRON_MONO -> vyronMonoDark
                 ColorThemeType.VERDANT_DAWN -> verdantDawnDark
                 ColorThemeType.CUSTOM -> customDark(
                     color = customColor,
@@ -646,7 +714,7 @@ fun ZalithLauncherTheme(
                 ColorThemeType.GLACIER -> glacierLight
                 ColorThemeType.VERDANTFIELD -> verdantFieldLight
                 ColorThemeType.URBAN_ASH -> urbanAshLight
-                ColorThemeType.VYRON_MONO -> urbanAshLight
+                ColorThemeType.VYRON_MONO -> vyronMonoLight
                 ColorThemeType.VERDANT_DAWN -> verdantDawnLight
                 ColorThemeType.CUSTOM -> customLight(
                     color = customColor,
