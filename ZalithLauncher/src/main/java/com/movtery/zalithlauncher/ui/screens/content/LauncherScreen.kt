@@ -280,13 +280,113 @@ private fun ContentMenu(
         LocalHomeCardVersionSettings provides onOpenVersionSettings,
         LocalServerCardQuickPlay provides onQuickPlayServer
     ) {
-        HomeGrid(
-            state = gridState,
-            isVisible = isVisible,
+        Column(
             modifier = modifier
                 .fillMaxSize()
                 .animated(ctx)
-        )
+                .padding(horizontal = 10.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            HomepageHero(
+                onLaunchGame = onLaunchGame,
+                onOpenVersionSettings = onOpenVersionSettings,
+                modifier = Modifier.fillMaxWidth()
+            )
+            HomeGrid(
+                state = gridState,
+                isVisible = isVisible,
+                modifier = Modifier.weight(1f).fillMaxWidth()
+            )
+        }
+    }
+}
+
+/**
+ * Main Vyron landing hero: selected game and launch action on the left,
+ * the authenticated Minecraft skin preview on the right.
+ */
+@Composable
+private fun HomepageHero(
+    onLaunchGame: (Version?) -> Unit,
+    onOpenVersionSettings: (Version) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val version by VersionsManager.currentVersion.collectAsStateWithLifecycle()
+    val isRefreshing by VersionsManager.isRefreshing.collectAsStateWithLifecycle()
+    val account by AccountsManager.currentAccountFlow.collectAsStateWithLifecycle()
+
+    BackgroundCard(
+        modifier = modifier.height(224.dp),
+        shape = MaterialTheme.shapes.extraLarge
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize().padding(start = 18.dp, top = 16.dp, bottom = 12.dp, end = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f).fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                    Text(
+                        text = "VYRON",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = "Ready to play?",
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                    Text(
+                        text = account?.username?.let { "Welcome back, $it" } ?: "Choose an account to get started",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2
+                    )
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        text = version?.getVersionName() ?: "No game version selected",
+                        style = MaterialTheme.typography.titleSmall,
+                        maxLines = 1
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        ScalingIconButton(
+                            onClick = { onLaunchGame(null) },
+                            enabled = version != null && version.isValid() && !isRefreshing
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_play_arrow_filled),
+                                contentDescription = stringResource(R.string.main_launch_game)
+                            )
+                        }
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = if (version == null) "Select a version" else "LAUNCH",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    if (version != null) {
+                        Text(
+                            text = "Tap version settings to manage your installation",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.clickable { onOpenVersionSettings(version) }
+                        )
+                    }
+                }
+            }
+            Box(
+                modifier = Modifier.weight(0.82f).fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                PetModelContent(
+                    dockedSide = LauncherSettings.launcherActionMenuSide.state,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
     }
 }
 
