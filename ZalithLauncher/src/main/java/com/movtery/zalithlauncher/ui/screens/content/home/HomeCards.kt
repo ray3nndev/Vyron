@@ -142,6 +142,7 @@ object HomeCards {
     fun systemCards(): List<SystemCard> = buildList {
         add(brandHeaderCard())
         add(lastPlayedCard())
+        add(playtimeCard())
         if (BuildConfig.DEBUG) {
             add(debugWarningCard())
         }
@@ -204,6 +205,36 @@ object HomeCards {
                     } else {
                         "Your most recently launched Minecraft version."
                     },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+
+    /** Displays accumulated time inside completed Minecraft JVM sessions. */
+    private fun playtimeCard() = SystemCard(id = "system_playtime") {
+        val playtime = LastPlayedStore.formattedPlaytime()
+        val sessions = LastPlayedStore.sessionCount
+        BackgroundCard(
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.extraLarge
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Text(
+                    text = "TOTAL PLAYTIME",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = playtime,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Text(
+                    text = "$sessions completed game sessions",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
