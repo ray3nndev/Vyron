@@ -539,7 +539,7 @@ private fun AddWidgetDialog(
                 WidgetOption(
                     "Last Played",
                     "Show the Minecraft version you launched most recently.",
-                    R.drawable.ic_history,
+                    R.drawable.ic_videogame_asset_outlined,
                     onAddLastPlayed
                 )
                 WidgetOption(
