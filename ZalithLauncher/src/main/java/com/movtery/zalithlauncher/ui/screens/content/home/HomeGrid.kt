@@ -464,6 +464,7 @@ private fun AddWidgetDialog(
                 fun WidgetOption(
                     title: String,
                     description: String,
+                    iconRes: Int,
                     onClick: () -> Unit
                 ) {
                     Surface(
@@ -476,19 +477,36 @@ private fun AddWidgetDialog(
                             onClick = onClick,
                             modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 5.dp)
                         ) {
-                            Column(
+                            Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                verticalArrangement = Arrangement.spacedBy(3.dp)
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                Text(
-                                    text = title,
-                                    style = MaterialTheme.typography.titleSmall
-                                )
-                                Text(
-                                    text = description,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
+                                Surface(
+                                    shape = MaterialTheme.shapes.medium,
+                                    color = MaterialTheme.colorScheme.surfaceContainerHighest
+                                ) {
+                                    Icon(
+                                        painter = painterResource(iconRes),
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(10.dp).size(22.dp),
+                                        tint = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                                Column(
+                                    modifier = Modifier.weight(1f),
+                                    verticalArrangement = Arrangement.spacedBy(3.dp)
+                                ) {
+                                    Text(
+                                        text = title,
+                                        style = MaterialTheme.typography.titleSmall
+                                    )
+                                    Text(
+                                        text = description,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
                             }
                         }
                     }
@@ -497,31 +515,37 @@ private fun AddWidgetDialog(
                 WidgetOption(
                     stringResource(R.string.home_widget_add_version),
                     stringResource(R.string.home_widget_add_version_description),
+                    R.drawable.ic_videogame_asset_outlined,
                     onAddVersion
                 )
                 WidgetOption(
                     stringResource(R.string.home_widget_add_server_title),
                     stringResource(R.string.home_widget_add_server_description),
+                    R.drawable.ic_videogame_asset_outlined,
                     onAddServer
                 )
                 WidgetOption(
                     stringResource(R.string.home_widget_add_ram),
                     stringResource(R.string.home_widget_add_ram_description),
+                    R.drawable.ic_settings_filled,
                     onAddRam
                 )
                 WidgetOption(
                     stringResource(R.string.home_widget_add_library),
                     stringResource(R.string.home_widget_add_library_description),
+                    R.drawable.ic_folder_filled,
                     onAddLibrary
                 )
                 WidgetOption(
                     "Last Played",
                     "Show the Minecraft version you launched most recently.",
+                    R.drawable.ic_history,
                     onAddLastPlayed
                 )
                 WidgetOption(
                     "Total Playtime",
                     "Show your accumulated Minecraft playtime and completed sessions.",
+                    R.drawable.ic_play_arrow_filled,
                     onAddPlaytime
                 )
             }
