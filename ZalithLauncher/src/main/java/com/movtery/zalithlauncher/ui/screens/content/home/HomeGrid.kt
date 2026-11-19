@@ -250,6 +250,33 @@ fun HomeGrid(
             scrollState = scrollState
         )
 
+        AnimatedVisibility(
+            visible = !state.isAdjusting,
+            enter = fadeIn() + slideInVertically { it / 2 },
+            exit = fadeOut() + slideOutVertically { it / 2 },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .navigationBarsPadding()
+                .padding(end = 16.dp, bottom = 16.dp)
+        ) {
+            Surface(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                shadowElevation = 2.dp
+            ) {
+                IconButton(
+                    modifier = Modifier.size(48.dp),
+                    onClick = { operation = HomeCardOperation.AddServerCard }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_add),
+                        contentDescription = stringResource(R.string.home_widget_add_server)
+                    )
+                }
+            }
+        }
+
         //调整态底部操作栏
         AnimatedVisibility(
             visible = state.isAdjusting,
@@ -262,7 +289,6 @@ fun HomeGrid(
         ) {
             AdjustingBar(
                 state = state,
-                onAddServer = { operation = HomeCardOperation.AddServerCard },
                 onShowSettings = {
                     operation = HomeCardOperation.ServerCardSettings(it)
                 }
@@ -304,7 +330,6 @@ private fun HomeCardOperation(
 @Composable
 private fun AdjustingBar(
     state: CardGridState,
-    onAddServer: () -> Unit,
     onShowSettings: (String) -> Unit
 ) {
     val adjustingId = state.adjustingCardId
@@ -325,17 +350,6 @@ private fun AdjustingBar(
             modifier = Modifier.padding(all = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                modifier = Modifier.size(34.dp),
-                onClick = onAddServer
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_add),
-                    contentDescription = stringResource(R.string.home_widget_add_server)
-                )
-            }
-            Spacer(Modifier.width(2.dp))
-
             AnimatedVisibility(visible = isServerCard && adjustingId != null) {
                 IconButton(
                     modifier = Modifier.size(34.dp),
