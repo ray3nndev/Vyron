@@ -429,13 +429,43 @@ private fun AddWidgetDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 TextButton(onClick = onAddVersion, modifier = Modifier.fillMaxWidth()) {
-                    Text(stringResource(R.string.home_widget_add_version))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Text(stringResource(R.string.home_widget_add_version))
+                        Text(
+                            stringResource(R.string.home_widget_add_version_description),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
                 TextButton(onClick = onAddServer, modifier = Modifier.fillMaxWidth()) {
-                    Text(stringResource(R.string.home_widget_add_server_title))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Text(stringResource(R.string.home_widget_add_server_title))
+                        Text(
+                            stringResource(R.string.home_widget_add_server_description),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
                 TextButton(onClick = onAddLibrary, modifier = Modifier.fillMaxWidth()) {
-                    Text(stringResource(R.string.home_widget_add_library))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Text(stringResource(R.string.home_widget_add_library))
+                        Text(
+                            stringResource(R.string.home_widget_add_library_description),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         },
