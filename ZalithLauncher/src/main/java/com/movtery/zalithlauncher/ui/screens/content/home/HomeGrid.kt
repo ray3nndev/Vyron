@@ -94,7 +94,6 @@ private sealed interface HomeCardOperation {
     data object AddWidget : HomeCardOperation
     data object AddServerCard : HomeCardOperation
     data object AddVersionCard : HomeCardOperation
-    data object AddRamCard : HomeCardOperation
 }
 
 /**
