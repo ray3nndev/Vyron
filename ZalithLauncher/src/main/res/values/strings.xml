@@ -142,7 +142,7 @@
     <!-- Option of the theme color setting in launcher settings -->
     <string name="theme_color_urban_ash">Urban Ash</string>
     <string name="theme_color_vyron_mono">Vyron Monochrome</string>
-    <string name="home_widget_add_server">Add server widget</string>
+    <string name="home_widget_add_server">Add widget</string>
     <string name="home_widget_add_title">Add a widget</string>
     <string name="home_widget_add_version">Version widget</string>
     <string name="home_widget_no_versions">No installed versions are available yet.</string>
