@@ -151,6 +151,12 @@ object HomeCards {
     /** RAM 使用情况卡片类型 */
     fun ramCardType(): CardType = ramCardType
 
+    /** Last played widget type */
+    fun lastPlayedCardType(): CardType = lastPlayedCardType
+
+    /** Total playtime widget type */
+    fun playtimeCardType(): CardType = playtimeCardType
+
     /** 用户卡片类型注册表 */
     val userCardTypes: List<CardType> = listOf(versionCardType, serverCardType, libraryCardType, ramCardType, lastPlayedCardType, playtimeCardType)
 
