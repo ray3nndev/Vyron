@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -42,6 +43,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -54,6 +56,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInParent
@@ -533,16 +536,40 @@ private fun PetModelContent(
         }
     }
 
-    PetModelView(
+    Box(
         modifier = modifier,
-        skin = skinBytes,
-        cape = capeBytes,
-        arm = armModel,
-        yaw = yaw,
-        animation = PetAnimation.Idle,
-        tapReaction = PetTapReaction.Interact,
-        dragYaw = false
-    )
+        contentAlignment = Alignment.Center
+    ) {
+        PetModelView(
+            modifier = Modifier.fillMaxSize(),
+            skin = skinBytes,
+            cape = capeBytes,
+            arm = armModel,
+            yaw = yaw,
+            animation = PetAnimation.Idle,
+            tapReaction = PetTapReaction.Interact,
+            dragYaw = false
+        )
+
+        account?.username?.takeIf { it.isNotBlank() }?.let { username ->
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 8.dp),
+                color = Color.Black.copy(alpha = 0.62f),
+                contentColor = Color.White,
+                shape = RoundedCornerShape(4.dp),
+                shadowElevation = 2.dp
+            ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
+                    text = username,
+                    style = MaterialTheme.typography.labelMedium,
+                    maxLines = 1
+                )
+            }
+        }
+    }
 }
 
 @Composable
