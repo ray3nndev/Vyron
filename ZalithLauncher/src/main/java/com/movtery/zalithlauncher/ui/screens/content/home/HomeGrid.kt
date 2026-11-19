@@ -81,6 +81,7 @@ import com.movtery.zalithlauncher.ui.screens.content.elements.backgroundGlass
 import com.movtery.zalithlauncher.ui.screens.content.home.server.ServerCardManager
 import com.movtery.zalithlauncher.ui.screens.content.home.server.ServerCardSettingsHost
 import com.movtery.zalithlauncher.ui.screens.content.home.version.VersionCardManager
+import java.util.UUID
 import com.movtery.zalithlauncher.ui.theme.cardColor
 import com.movtery.zalithlauncher.ui.theme.onCardColor
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -93,6 +94,7 @@ private sealed interface HomeCardOperation {
     data object AddWidget : HomeCardOperation
     data object AddServerCard : HomeCardOperation
     data object AddVersionCard : HomeCardOperation
+    data object AddLibraryCard : HomeCardOperation
 }
 
 /**
@@ -302,14 +304,19 @@ fun HomeGrid(
 
     HomeCardOperation(
         operation = operation,
-        onChange = { operation = it }
+        onChange = { operation = it },
+        onAddLibraryCard = {
+            state.addCard(HomeCards.libraryCardType(), UUID.randomUUID().toString())
+            operation = HomeCardOperation.None
+        }
     )
 }
 
 @Composable
 private fun HomeCardOperation(
     operation: HomeCardOperation,
-    onChange: (HomeCardOperation) -> Unit
+    onChange: (HomeCardOperation) -> Unit,
+    onAddLibraryCard: () -> Unit
 ) {
     when (operation) {
         is HomeCardOperation.None -> {}
@@ -323,9 +330,11 @@ private fun HomeCardOperation(
             AddWidgetDialog(
                 onDismiss = { onChange(HomeCardOperation.None) },
                 onAddVersion = { onChange(HomeCardOperation.AddVersionCard) },
-                onAddServer = { onChange(HomeCardOperation.AddServerCard) }
+                onAddServer = { onChange(HomeCardOperation.AddServerCard) },
+                onAddLibrary = onAddLibraryCard
             )
         }
+        is HomeCardOperation.AddLibraryCard -> onAddLibraryCard()
         is HomeCardOperation.AddVersionCard -> {
             AddVersionCardDialog(
                 onDismiss = { onChange(HomeCardOperation.None) },
@@ -413,7 +422,8 @@ private fun AdjustingBar(
 private fun AddWidgetDialog(
     onDismiss: () -> Unit,
     onAddVersion: () -> Unit,
-    onAddServer: () -> Unit
+    onAddServer: () -> Unit,
+    onAddLibrary: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -425,6 +435,9 @@ private fun AddWidgetDialog(
                 }
                 TextButton(onClick = onAddServer, modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.home_widget_add_server_title))
+                }
+                TextButton(onClick = onAddLibrary, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.home_widget_add_library))
                 }
             }
         },
