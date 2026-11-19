@@ -181,6 +181,7 @@ fun LauncherSettingsScreen(
                                 ColorThemeType.GLACIER -> stringResource(R.string.theme_color_glacier)
                                 ColorThemeType.VERDANTFIELD -> stringResource(R.string.theme_color_verdant_field)
                                 ColorThemeType.URBAN_ASH -> stringResource(R.string.theme_color_urban_ash)
+                                ColorThemeType.VYRON_MONO -> stringResource(R.string.theme_color_vyron_mono)
                                 ColorThemeType.VERDANT_DAWN -> stringResource(R.string.theme_color_verdant_dawn)
                                 ColorThemeType.CUSTOM -> stringResource(R.string.generic_custom)
                             }
