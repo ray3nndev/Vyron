@@ -142,6 +142,10 @@
     <!-- Option of the theme color setting in launcher settings -->
     <string name="theme_color_urban_ash">Urban Ash</string>
     <string name="theme_color_vyron_mono">Vyron Monochrome</string>
+    <string name="home_widget_add_server">Add server widget</string>
+    <string name="home_widget_add_server_title">Add server widget</string>
+    <string name="home_widget_server_address_error">Enter a valid address or check whether this server widget already exists.</string>
+    <string name="home_widget_add">Add</string>
     <!-- Option of the theme color setting in launcher settings -->
     <string name="theme_color_verdant_dawn">Silent Forest Dawn</string>
     <!-- Title of the color picker dialog -->
