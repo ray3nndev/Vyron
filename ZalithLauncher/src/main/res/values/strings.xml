@@ -143,6 +143,9 @@
     <string name="theme_color_urban_ash">Urban Ash</string>
     <string name="theme_color_vyron_mono">Vyron Monochrome</string>
     <string name="home_widget_add_server">Add server widget</string>
+    <string name="home_widget_add_title">Add a widget</string>
+    <string name="home_widget_add_version">Version widget</string>
+    <string name="home_widget_no_versions">No installed versions are available yet.</string>
     <string name="home_widget_add_server_title">Add server widget</string>
     <string name="home_widget_server_address_error">A server address is required, or this server widget already exists.</string>
     <string name="home_widget_add">Add</string>
