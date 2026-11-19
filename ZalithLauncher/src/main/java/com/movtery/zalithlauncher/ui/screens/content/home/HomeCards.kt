@@ -40,6 +40,7 @@ import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.ui.components.BackgroundCard
 import com.movtery.zalithlauncher.ui.screens.content.home.server.ServerCardContent
 import com.movtery.zalithlauncher.ui.screens.content.home.library.LibraryCardContent
+import com.movtery.zalithlauncher.ui.screens.content.home.ram.RamCardContent
 import com.movtery.zalithlauncher.ui.screens.content.home.version.VersionCardContent
 
 /** 系统卡片（不可变更），由启动器自行提供并绘制在网格之外 */
@@ -62,6 +63,9 @@ object HomeCards {
 
     /** 游戏库概览卡片的类型 id */
     const val LIBRARY_CARD_TYPE_ID = "library_card"
+
+    /** RAM 使用情况卡片的类型 id */
+    const val RAM_CARD_TYPE_ID = "ram_card"
 
     private val versionCardType = CardType(
         typeId = VERSION_CARD_TYPE_ID,
@@ -90,6 +94,20 @@ object HomeCards {
         }
     )
 
+    /** RAM 使用情况卡片类型 */
+    private val ramCardType = CardType(
+        typeId = RAM_CARD_TYPE_ID,
+        defaultSpan = IntOffset(10, 4),
+        limits = CardLimits(
+            minWidth = 10,
+            minHeight = 4,
+            maxHeight = 8
+        ),
+        content = { cardId ->
+            RamCardContent(cardId)
+        }
+    )
+
     /** 服务器卡片类型 */
     private val serverCardType = CardType(
         typeId = SERVER_CARD_TYPE_ID,
@@ -113,8 +131,11 @@ object HomeCards {
     /** 游戏库概览卡片类型 */
     fun libraryCardType(): CardType = libraryCardType
 
+    /** RAM 使用情况卡片类型 */
+    fun ramCardType(): CardType = ramCardType
+
     /** 用户卡片类型注册表 */
-    val userCardTypes: List<CardType> = listOf(versionCardType, serverCardType, libraryCardType)
+    val userCardTypes: List<CardType> = listOf(versionCardType, serverCardType, libraryCardType, ramCardType)
 
     /** 系统卡片（不可变更） */
     fun systemCards(): List<SystemCard> = buildList {
