@@ -270,7 +270,7 @@ private fun WelcomeTerminal(
         welcomeText = ""
         welcomeFinished = false
         delay(700.milliseconds)
-        "WEL".forEach { character ->
+        "VY".forEach { character ->
             welcomeText += character
             delay(85.milliseconds)
         }
@@ -278,7 +278,7 @@ private fun WelcomeTerminal(
         // 中途小小休息
         delay(420.milliseconds)
 
-        "COME!".forEach { character ->
+        "RON".forEach { character ->
             welcomeText += character
             delay(85.milliseconds)
         }
