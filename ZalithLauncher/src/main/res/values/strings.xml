@@ -141,6 +141,7 @@
     <string name="theme_color_verdant_field">Verdant Twilight</string>
     <!-- Option of the theme color setting in launcher settings -->
     <string name="theme_color_urban_ash">Urban Ash</string>
+    <string name="theme_color_vyron_mono">Vyron Monochrome</string>
     <!-- Option of the theme color setting in launcher settings -->
     <string name="theme_color_verdant_dawn">Silent Forest Dawn</string>
     <!-- Title of the color picker dialog -->
