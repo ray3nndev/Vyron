@@ -36,6 +36,7 @@ import com.movtery.zalithlauncher.game.version.installed.VersionsManager
 
 /** Compact overview of the installed Minecraft library. */
 @Composable
+@Suppress("UNUSED_PARAMETER")
 fun LibraryCardContent(cardId: String) {
     val versions by VersionsManager.versions.collectAsStateWithLifecycle()
     val currentVersion by VersionsManager.currentVersion.collectAsStateWithLifecycle()
