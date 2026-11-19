@@ -95,6 +95,22 @@ object HomeCards {
         }
     )
 
+    /** Last played Minecraft version widget. */
+    private val lastPlayedCardType = CardType(
+        typeId = "last_played_card",
+        defaultSpan = IntOffset(10, 4),
+        limits = CardLimits(minWidth = 10, minHeight = 4, maxHeight = 8),
+        content = { cardId -> LastPlayedCardContent(cardId) }
+    )
+
+    /** Total Minecraft playtime widget. */
+    private val playtimeCardType = CardType(
+        typeId = "playtime_card",
+        defaultSpan = IntOffset(10, 4),
+        limits = CardLimits(minWidth = 10, minHeight = 4, maxHeight = 8),
+        content = { cardId -> PlaytimeCardContent(cardId) }
+    )
+
     /** RAM 使用情况卡片类型 */
     private val ramCardType = CardType(
         typeId = RAM_CARD_TYPE_ID,
@@ -136,13 +152,11 @@ object HomeCards {
     fun ramCardType(): CardType = ramCardType
 
     /** 用户卡片类型注册表 */
-    val userCardTypes: List<CardType> = listOf(versionCardType, serverCardType, libraryCardType, ramCardType)
+    val userCardTypes: List<CardType> = listOf(versionCardType, serverCardType, libraryCardType, ramCardType, lastPlayedCardType, playtimeCardType)
 
     /** 系统卡片（不可变更） */
     fun systemCards(): List<SystemCard> = buildList {
         add(brandHeaderCard())
-        add(lastPlayedCard())
-        add(playtimeCard())
         if (BuildConfig.DEBUG) {
             add(debugWarningCard())
         }
@@ -179,8 +193,9 @@ object HomeCards {
         }
     }
 
-    /** Shows the most recently launched Minecraft version. */
-    private fun lastPlayedCard() = SystemCard(id = "system_last_played") {
+    /** Editable widget showing the most recently launched Minecraft version. */
+    @Composable
+    private fun LastPlayedCardContent(cardId: String) {
         val version = LastPlayedStore.versionName
         BackgroundCard(
             modifier = Modifier.fillMaxWidth(),
@@ -212,8 +227,9 @@ object HomeCards {
         }
     }
 
-    /** Displays accumulated time inside completed Minecraft JVM sessions. */
-    private fun playtimeCard() = SystemCard(id = "system_playtime") {
+    /** Editable widget showing accumulated time from completed Minecraft sessions. */
+    @Composable
+    private fun PlaytimeCardContent(cardId: String) {
         val playtime = LastPlayedStore.formattedPlaytime()
         val sessions = LastPlayedStore.sessionCount
         BackgroundCard(
