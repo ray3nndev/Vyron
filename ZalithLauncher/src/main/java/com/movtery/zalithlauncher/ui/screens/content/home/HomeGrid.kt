@@ -94,6 +94,8 @@ private sealed interface HomeCardOperation {
     data object AddWidget : HomeCardOperation
     data object AddServerCard : HomeCardOperation
     data object AddVersionCard : HomeCardOperation
+    data object AddLastPlayedCard : HomeCardOperation
+    data object AddPlaytimeCard : HomeCardOperation
 }
 
 /**
@@ -311,6 +313,14 @@ fun HomeGrid(
         onAddRamCard = {
             state.addCard(HomeCards.ramCardType(), UUID.randomUUID().toString())
             operation = HomeCardOperation.None
+        },
+        onAddLastPlayedCard = {
+            state.addCard(HomeCards.lastPlayedCardType(), UUID.randomUUID().toString())
+            operation = HomeCardOperation.None
+        },
+        onAddPlaytimeCard = {
+            state.addCard(HomeCards.playtimeCardType(), UUID.randomUUID().toString())
+            operation = HomeCardOperation.None
         }
     )
 }
@@ -320,7 +330,9 @@ private fun HomeCardOperation(
     operation: HomeCardOperation,
     onChange: (HomeCardOperation) -> Unit,
     onAddLibraryCard: () -> Unit,
-    onAddRamCard: () -> Unit
+    onAddRamCard: () -> Unit,
+    onAddLastPlayedCard: () -> Unit,
+    onAddPlaytimeCard: () -> Unit
 ) {
     when (operation) {
         is HomeCardOperation.None -> {}
@@ -336,7 +348,9 @@ private fun HomeCardOperation(
                 onAddVersion = { onChange(HomeCardOperation.AddVersionCard) },
                 onAddServer = { onChange(HomeCardOperation.AddServerCard) },
                 onAddLibrary = onAddLibraryCard,
-                onAddRam = onAddRamCard
+                onAddRam = onAddRamCard,
+                onAddLastPlayed = onAddLastPlayedCard,
+                onAddPlaytime = onAddPlaytimeCard
             )
         }
         is HomeCardOperation.AddVersionCard -> {
@@ -428,7 +442,9 @@ private fun AddWidgetDialog(
     onAddVersion: () -> Unit,
     onAddServer: () -> Unit,
     onAddLibrary: () -> Unit,
-    onAddRam: () -> Unit
+    onAddRam: () -> Unit,
+    onAddLastPlayed: () -> Unit,
+    onAddPlaytime: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -499,6 +515,16 @@ private fun AddWidgetDialog(
                     stringResource(R.string.home_widget_add_library),
                     stringResource(R.string.home_widget_add_library_description),
                     onAddLibrary
+                )
+                WidgetOption(
+                    "Last Played",
+                    "Show the Minecraft version you launched most recently.",
+                    onAddLastPlayed
+                )
+                WidgetOption(
+                    "Total Playtime",
+                    "Show your accumulated Minecraft playtime and completed sessions.",
+                    onAddPlaytime
                 )
             }
         },
