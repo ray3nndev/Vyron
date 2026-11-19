@@ -19,6 +19,8 @@ import com.tencent.mmkv.MMKV
 object LastPlayedStore {
     private const val KEY_VERSION = "lastPlayedVersion"
     private const val KEY_TIME = "lastPlayedAt"
+    private const val KEY_TOTAL_PLAYTIME = "totalPlaytimeMs"
+    private const val KEY_SESSION_COUNT = "sessionCount"
 
     private val storage: MMKV by lazy { MMKV.mmkvWithID("game_activity") }
 
@@ -27,6 +29,31 @@ object LastPlayedStore {
 
     var playedAt by mutableStateOf(storage.decodeLong(KEY_TIME, 0L))
         private set
+
+    var totalPlaytimeMs by mutableStateOf(storage.decodeLong(KEY_TOTAL_PLAYTIME, 0L))
+        private set
+
+    var sessionCount by mutableStateOf(storage.decodeLong(KEY_SESSION_COUNT, 0L))
+        private set
+
+    fun recordSessionDuration(durationMs: Long) {
+        if (durationMs <= 0L) return
+        totalPlaytimeMs += durationMs
+        sessionCount += 1L
+        storage.encode(KEY_TOTAL_PLAYTIME, totalPlaytimeMs)
+        storage.encode(KEY_SESSION_COUNT, sessionCount)
+    }
+
+    fun formattedPlaytime(): String {
+        val totalMinutes = totalPlaytimeMs / 60_000L
+        val hours = totalMinutes / 60L
+        val minutes = totalMinutes % 60L
+        return when {
+            hours > 0L -> "${hours}h ${minutes}m"
+            totalMinutes > 0L -> "${totalMinutes}m"
+            else -> "0m"
+        }
+    }
 
     fun recordLaunch(version: String) {
         versionName = version
