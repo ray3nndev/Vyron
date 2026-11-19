@@ -352,8 +352,11 @@ private fun HomepageHero(
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         ScalingIconButton(
-                            onClick = { onLaunchGame(null) },
-                            enabled = version != null && version.isValid() && !isRefreshing
+                            onClick = {
+                                if (version != null && version.isValid() && !isRefreshing) {
+                                    onLaunchGame(null)
+                                }
+                            }
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_play_arrow_filled),
