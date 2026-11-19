@@ -94,7 +94,6 @@ private sealed interface HomeCardOperation {
     data object AddWidget : HomeCardOperation
     data object AddServerCard : HomeCardOperation
     data object AddVersionCard : HomeCardOperation
-    data object AddLibraryCard : HomeCardOperation
 }
 
 /**
@@ -334,7 +333,6 @@ private fun HomeCardOperation(
                 onAddLibrary = onAddLibraryCard
             )
         }
-        is HomeCardOperation.AddLibraryCard -> onAddLibraryCard()
         is HomeCardOperation.AddVersionCard -> {
             AddVersionCardDialog(
                 onDismiss = { onChange(HomeCardOperation.None) },
