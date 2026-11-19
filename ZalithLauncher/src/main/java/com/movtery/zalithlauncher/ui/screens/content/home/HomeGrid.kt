@@ -434,59 +434,72 @@ private fun AddWidgetDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.home_widget_add_title)) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                TextButton(onClick = onAddVersion, modifier = Modifier.fillMaxWidth()) {
-                    Column(
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(
+                    text = "Build your home screen",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = "Choose a widget to add. You can move or remove it later in edit mode.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                @Composable
+                fun WidgetOption(
+                    title: String,
+                    description: String,
+                    onClick: () -> Unit
+                ) {
+                    Surface(
                         modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                        shape = MaterialTheme.shapes.large,
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        contentColor = MaterialTheme.colorScheme.onSurface
                     ) {
-                        Text(stringResource(R.string.home_widget_add_version))
-                        Text(
-                            stringResource(R.string.home_widget_add_version_description),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        TextButton(
+                            onClick = onClick,
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 5.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(3.dp)
+                            ) {
+                                Text(
+                                    text = title,
+                                    style = MaterialTheme.typography.titleSmall
+                                )
+                                Text(
+                                    text = description,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
                     }
                 }
-                TextButton(onClick = onAddServer, modifier = Modifier.fillMaxWidth()) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        Text(stringResource(R.string.home_widget_add_server_title))
-                        Text(
-                            stringResource(R.string.home_widget_add_server_description),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-                TextButton(onClick = onAddRam, modifier = Modifier.fillMaxWidth()) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        Text(stringResource(R.string.home_widget_add_ram))
-                        Text(
-                            stringResource(R.string.home_widget_add_ram_description),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-                TextButton(onClick = onAddLibrary, modifier = Modifier.fillMaxWidth()) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        Text(stringResource(R.string.home_widget_add_library))
-                        Text(
-                            stringResource(R.string.home_widget_add_library_description),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
+
+                WidgetOption(
+                    stringResource(R.string.home_widget_add_version),
+                    stringResource(R.string.home_widget_add_version_description),
+                    onAddVersion
+                )
+                WidgetOption(
+                    stringResource(R.string.home_widget_add_server_title),
+                    stringResource(R.string.home_widget_add_server_description),
+                    onAddServer
+                )
+                WidgetOption(
+                    stringResource(R.string.home_widget_add_ram),
+                    stringResource(R.string.home_widget_add_ram_description),
+                    onAddRam
+                )
+                WidgetOption(
+                    stringResource(R.string.home_widget_add_library),
+                    stringResource(R.string.home_widget_add_library_description),
+                    onAddLibrary
+                )
             }
         },
         confirmButton = {
