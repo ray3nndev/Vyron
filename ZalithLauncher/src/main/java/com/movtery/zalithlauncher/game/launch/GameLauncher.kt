@@ -21,6 +21,7 @@ package com.movtery.zalithlauncher.game.launch
 import android.app.Activity
 import android.os.Build
 import android.os.Parcelable
+import android.os.SystemClock
 import android.widget.Toast
 import androidx.annotation.Keep
 import androidx.compose.ui.unit.IntSize
@@ -275,13 +276,18 @@ class GameLauncher(
 
         tryStartTouchProxy()
 
-        return launchJvm(
+        val sessionStartedAt = SystemClock.elapsedRealtime()
+        val exitCode = launchJvm(
             context = activity,
             jvmArgs = launchArgs,
             userHome = version.getGameHome(),
             userArgs = customArgs,
             screenSize = screenSize
         )
+        LastPlayedStore.recordSessionDuration(
+            SystemClock.elapsedRealtime() - sessionStartedAt
+        )
+        return exitCode
     }
 
     override fun getRuntimeLibraryPath(): String {
