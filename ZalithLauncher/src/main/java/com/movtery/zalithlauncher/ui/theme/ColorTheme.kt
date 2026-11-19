@@ -38,6 +38,7 @@ enum class ColorThemeType {
     GLACIER,
     VERDANTFIELD,
     URBAN_ASH,
+    VYRON_MONO,
     VERDANT_DAWN,
     CUSTOM
 }
