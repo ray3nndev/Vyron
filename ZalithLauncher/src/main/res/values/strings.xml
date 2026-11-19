@@ -150,6 +150,13 @@
     <string name="home_widget_add_version_description">Pin a Minecraft installation for quick access.</string>
     <string name="home_widget_add_server_description">Keep a favorite multiplayer server on your homepage.</string>
     <string name="home_widget_add_library_description">See your installed versions and current selection.</string>
+    <string name="home_widget_add_ram">RAM usage</string>
+    <string name="home_widget_add_ram_description">Monitor your device memory with live updates.</string>
+    <string name="home_ram_title">Device RAM</string>
+    <string name="home_ram_used_value">%1$d MB / %2$d MB</string>
+    <string name="home_ram_percent">%1$d%% used</string>
+    <string name="home_ram_loading">Reading memory…</string>
+    <string name="home_ram_device_memory">System memory usage · refreshes every 5 seconds</string>
     <string name="home_library_title">Minecraft library</string>
     <string name="home_library_installed_count">Installed versions</string>
     <string name="home_library_current_version">Selected version</string>
