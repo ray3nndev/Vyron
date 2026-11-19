@@ -39,10 +39,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -84,6 +88,7 @@ private sealed interface HomeCardOperation {
     data object None : HomeCardOperation
     /** 打开服务器卡片的设置对话框 */
     data class ServerCardSettings(val cardId: String) : HomeCardOperation
+    data object AddServerCard : HomeCardOperation
 }
 
 /**
@@ -257,6 +262,7 @@ fun HomeGrid(
         ) {
             AdjustingBar(
                 state = state,
+                onAddServer = { operation = HomeCardOperation.AddServerCard },
                 onShowSettings = {
                     operation = HomeCardOperation.ServerCardSettings(it)
                 }
@@ -283,6 +289,12 @@ private fun HomeCardOperation(
                 onDismiss = { onChange(HomeCardOperation.None) }
             )
         }
+        is HomeCardOperation.AddServerCard -> {
+            AddServerCardDialog(
+                onDismiss = { onChange(HomeCardOperation.None) },
+                onAdd = ServerCardManager::addCard
+            )
+        }
     }
 }
 
@@ -292,6 +304,7 @@ private fun HomeCardOperation(
 @Composable
 private fun AdjustingBar(
     state: CardGridState,
+    onAddServer: () -> Unit,
     onShowSettings: (String) -> Unit
 ) {
     val adjustingId = state.adjustingCardId
@@ -312,6 +325,17 @@ private fun AdjustingBar(
             modifier = Modifier.padding(all = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            IconButton(
+                modifier = Modifier.size(34.dp),
+                onClick = onAddServer
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_add),
+                    contentDescription = stringResource(R.string.home_widget_add_server)
+                )
+            }
+            Spacer(Modifier.width(2.dp))
+
             AnimatedVisibility(visible = isServerCard && adjustingId != null) {
                 IconButton(
                     modifier = Modifier.size(34.dp),
@@ -350,6 +374,69 @@ private fun AdjustingBar(
             }
         }
     }
+}
+
+
+/** Minimal add flow for a server widget; the manager synchronizes the grid and persistence. */
+@Composable
+private fun AddServerCardDialog(
+    onDismiss: () -> Unit,
+    onAdd: (String, String, ByteArray?) -> Boolean
+) {
+    var name by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf(false) }
+    val defaultName = stringResource(R.string.servers_list_add_server_default_name)
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.home_widget_add_server_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text(stringResource(R.string.servers_list_add_server_name)) },
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = address,
+                    onValueChange = {
+                        address = it
+                        error = false
+                    },
+                    label = { Text(stringResource(R.string.servers_list_add_server_ip)) },
+                    singleLine = true,
+                    isError = error
+                )
+                if (error) {
+                    Text(
+                        text = stringResource(R.string.home_widget_server_address_error),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (address.isBlank() || !onAdd(name.ifBlank { defaultName }, address, null)) {
+                        error = true
+                    } else {
+                        onDismiss()
+                    }
+                }
+            ) {
+                Text(stringResource(R.string.home_widget_add))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.generic_cancel))
+            }
+        }
+    )
 }
 
 /**
