@@ -68,6 +68,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.movtery.zalithlauncher.game.version.installed.VersionsManager
 import com.movtery.cardgrid.model.CardRect
 import com.movtery.cardgrid.state.CardGridState
 import com.movtery.cardgrid.state.CardSeed
@@ -88,7 +90,9 @@ private sealed interface HomeCardOperation {
     data object None : HomeCardOperation
     /** 打开服务器卡片的设置对话框 */
     data class ServerCardSettings(val cardId: String) : HomeCardOperation
+    data object AddWidget : HomeCardOperation
     data object AddServerCard : HomeCardOperation
+    data object AddVersionCard : HomeCardOperation
 }
 
 /**
@@ -267,7 +271,7 @@ fun HomeGrid(
             ) {
                 IconButton(
                     modifier = Modifier.size(48.dp),
-                    onClick = { operation = HomeCardOperation.AddServerCard }
+                    onClick = { operation = HomeCardOperation.AddWidget }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_add),
@@ -313,6 +317,19 @@ private fun HomeCardOperation(
             ServerCardSettingsHost(
                 cardId = operation.cardId,
                 onDismiss = { onChange(HomeCardOperation.None) }
+            )
+        }
+        is HomeCardOperation.AddWidget -> {
+            AddWidgetDialog(
+                onDismiss = { onChange(HomeCardOperation.None) },
+                onAddVersion = { onChange(HomeCardOperation.AddVersionCard) },
+                onAddServer = { onChange(HomeCardOperation.AddServerCard) }
+            )
+        }
+        is HomeCardOperation.AddVersionCard -> {
+            AddVersionCardDialog(
+                onDismiss = { onChange(HomeCardOperation.None) },
+                onAdded = { onChange(HomeCardOperation.None) }
             )
         }
         is HomeCardOperation.AddServerCard -> {
@@ -390,6 +407,86 @@ private fun AdjustingBar(
     }
 }
 
+
+/** Small widget picker that keeps the launcher's existing card visual language. */
+@Composable
+private fun AddWidgetDialog(
+    onDismiss: () -> Unit,
+    onAddVersion: () -> Unit,
+    onAddServer: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.home_widget_add_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                TextButton(onClick = onAddVersion, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.home_widget_add_version))
+                }
+                TextButton(onClick = onAddServer, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.home_widget_add_server_title))
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.generic_cancel))
+            }
+        }
+    )
+}
+
+/** Lets the user choose an installed game version to pin as a movable home card. */
+@Composable
+private fun AddVersionCardDialog(
+    onDismiss: () -> Unit,
+    onAdded: () -> Unit
+) {
+    val versions by VersionsManager.versions.collectAsStateWithLifecycle()
+    val existingCards by VersionCardManager.cards.collectAsStateWithLifecycle()
+    val availableVersions = versions.filter { it.isValid() }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.home_widget_add_version)) },
+        text = {
+            if (availableVersions.isEmpty()) {
+                Text(stringResource(R.string.home_widget_no_versions))
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    availableVersions.forEach { version ->
+                        val alreadyAdded = existingCards.any {
+                            it.record.versionName == version.getVersionName() &&
+                                it.record.dir == com.movtery.zalithlauncher.ui.screens.content.home.version.VersionCardDir.fromGameHome(version.getGameHome())
+                        }
+                        TextButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !alreadyAdded,
+                            onClick = {
+                                if (VersionCardManager.addCard(version)) onAdded()
+                            }
+                        ) {
+                            Text(
+                                text = version.getVersionName() + if (alreadyAdded) "  ✓" else "",
+                                color = if (alreadyAdded) MaterialTheme.colorScheme.onSurfaceVariant
+                                    else MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.generic_cancel))
+            }
+        }
+    )
+}
 
 /** Minimal add flow for a server widget; the manager synchronizes the grid and persistence. */
 @Composable
