@@ -147,6 +147,9 @@
     <string name="home_widget_add_version">Version widget</string>
     <string name="home_widget_no_versions">No installed versions are available yet.</string>
     <string name="home_widget_add_library">Library overview</string>
+    <string name="home_widget_add_version_description">Pin a Minecraft installation for quick access.</string>
+    <string name="home_widget_add_server_description">Keep a favorite multiplayer server on your homepage.</string>
+    <string name="home_widget_add_library_description">See your installed versions and current selection.</string>
     <string name="home_library_title">Minecraft library</string>
     <string name="home_library_installed_count">Installed versions</string>
     <string name="home_library_current_version">Selected version</string>
