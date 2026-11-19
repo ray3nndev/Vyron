@@ -630,6 +630,7 @@ fun ZalithLauncherTheme(
                 ColorThemeType.GLACIER -> glacierDark
                 ColorThemeType.VERDANTFIELD -> verdantFieldDark
                 ColorThemeType.URBAN_ASH -> urbanAshDark
+                ColorThemeType.VYRON_MONO -> urbanAshDark
                 ColorThemeType.VERDANT_DAWN -> verdantDawnDark
                 ColorThemeType.CUSTOM -> customDark(
                     color = customColor,
@@ -645,6 +646,7 @@ fun ZalithLauncherTheme(
                 ColorThemeType.GLACIER -> glacierLight
                 ColorThemeType.VERDANTFIELD -> verdantFieldLight
                 ColorThemeType.URBAN_ASH -> urbanAshLight
+                ColorThemeType.VYRON_MONO -> urbanAshLight
                 ColorThemeType.VERDANT_DAWN -> verdantDawnLight
                 ColorThemeType.CUSTOM -> customLight(
                     color = customColor,
