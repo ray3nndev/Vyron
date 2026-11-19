@@ -239,6 +239,7 @@ class GameLaunchFlow(scope: CoroutineScope) {
                             .build()
                     )
                 }
+                LastPlayedStore.recordLaunch(version.getVersionName())
                 runGame(context, version, account)
                 exitActivity()
             }
