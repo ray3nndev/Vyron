@@ -37,6 +37,7 @@ import com.movtery.cardgrid.model.CardType
 import com.movtery.zalithlauncher.BuildConfig
 import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.R
+import com.movtery.zalithlauncher.game.launch.LastPlayedStore
 import com.movtery.zalithlauncher.ui.components.BackgroundCard
 import com.movtery.zalithlauncher.ui.screens.content.home.server.ServerCardContent
 import com.movtery.zalithlauncher.ui.screens.content.home.library.LibraryCardContent
@@ -140,6 +141,7 @@ object HomeCards {
     /** 系统卡片（不可变更） */
     fun systemCards(): List<SystemCard> = buildList {
         add(brandHeaderCard())
+        add(lastPlayedCard())
         if (BuildConfig.DEBUG) {
             add(debugWarningCard())
         }
@@ -169,6 +171,39 @@ object HomeCards {
                 )
                 Text(
                     text = "Your worlds, servers and setup — all in one place.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+
+    /** Shows the most recently launched Minecraft version. */
+    private fun lastPlayedCard() = SystemCard(id = "system_last_played") {
+        val version = LastPlayedStore.versionName
+        BackgroundCard(
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.extraLarge
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Text(
+                    text = "LAST PLAYED",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = version.ifBlank { "No games launched yet" },
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = if (version.isBlank()) {
+                        "Launch a Minecraft version and it will appear here."
+                    } else {
+                        "Your most recently launched Minecraft version."
+                    },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
