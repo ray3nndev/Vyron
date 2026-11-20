@@ -317,7 +317,8 @@ private fun HomepageHero(
     val version by VersionsManager.currentVersion.collectAsStateWithLifecycle()
     val selectedVersion = version
     val isRefreshing by VersionsManager.isRefreshing.collectAsStateWithLifecycle()
-    val account by AccountsManager.currentAccountFlow.collectAsStateWithLifecycle()
+    val accountFlowValue by AccountsManager.currentAccountFlow.collectAsStateWithLifecycle()
+    val selectedAccount = accountFlowValue
 
     BackgroundCard(
         modifier = modifier.height(224.dp),
@@ -348,13 +349,13 @@ private fun HomepageHero(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(
-                            text = account?.username ?: "NO PLAYER SELECTED",
+                            text = selectedAccount?.username ?: "NO PLAYER SELECTED",
                             style = MaterialTheme.typography.labelMedium,
                             maxLines = 1
                         )
-                        if (account != null) {
+                        if (selectedAccount != null) {
                             Text(
-                                text = "• " + getAccountTypeName(account),
+                                text = "• " + getAccountTypeName(selectedAccount),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1
