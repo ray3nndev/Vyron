@@ -312,8 +312,6 @@ private fun ContentMenu(
 @Composable
 private fun HomepageHero(
     onLaunchGame: (Version) -> Unit,
-private fun HomepageHero(
-    onLaunchGame: (Version) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val version by VersionsManager.currentVersion.collectAsStateWithLifecycle()
@@ -387,7 +385,9 @@ private fun HomepageHero(
     }
 }
 
-r = Modifier,
+@Composable
+private fun AccountAvatarRow(
+    modifier: Modifier = Modifier,
     avatarSize: Dp = 48.dp,
     placeholderSize: Dp = 40.dp,
     textSpacer: Dp = 4.dp,
