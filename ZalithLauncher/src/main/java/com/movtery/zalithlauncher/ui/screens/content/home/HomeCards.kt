@@ -181,7 +181,7 @@ object HomeCards {
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Text(
-                    text = "LAST PLAYED",
+                    text = "GAME LOGS",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -216,7 +216,7 @@ object HomeCards {
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Text(
-                    text = "TOTAL PLAYTIME",
+                    text = "PLAYTIME",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
