@@ -162,40 +162,9 @@ object HomeCards {
 
     /** 系统卡片（不可变更） */
     fun systemCards(): List<SystemCard> = buildList {
-        add(brandHeaderCard())
+        // The main hero already carries Vyron identity; avoid a duplicate header.
         if (BuildConfig.DEBUG) {
             add(debugWarningCard())
-        }
-    }
-
-    /**
-     * Vyron homepage identity header. Kept outside the editable grid so
-     * the launcher brand remains visible regardless of widget customization.
-     */
-    private fun brandHeaderCard() = SystemCard(id = "system_vyron_header") {
-        BackgroundCard(
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraLarge
-        ) {
-            Column(
-                modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                Text(
-                    text = BuildKeys.LAUNCHER_NAME.uppercase(),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = "Your Minecraft space.",
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Text(
-                    text = "Your worlds, servers and setup — all in one place.",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
         }
     }
 
