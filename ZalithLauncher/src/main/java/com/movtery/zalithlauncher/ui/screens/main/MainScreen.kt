@@ -508,6 +508,14 @@ private fun NavigationUI(
                 useClassEquality = true
             )
         }
+        val navigateToVersionManager: (Version, NormalNavKey.Versions) -> Unit = { version, manager ->
+            val destination = NestedNavKey.VersionSettings(version)
+            destination.navigateTo(manager)
+            screenBackStackModel.mainScreen.navigateTo(
+                screenKey = destination,
+                useClassEquality = true
+            )
+        }
         /** 导航至整合包导出屏幕 */
         val navigateToExport: (Version) -> Unit = { version ->
             screenBackStackModel.mainScreen.removeAndNavigateTo(
@@ -531,6 +539,7 @@ private fun NavigationUI(
                     LauncherScreen(
                         backStackViewModel = screenBackStackModel,
                         navigateToVersions = navigateToVersions,
+                        navigateToVersionManager = navigateToVersionManager,
                         onLaunchGame = { version ->
                             eventViewModel.sendEvent(
                                 EventViewModel.Event.Launch.Game(version)
