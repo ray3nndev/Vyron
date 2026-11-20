@@ -294,7 +294,6 @@ private fun ContentMenu(
         ) {
             HomepageHero(
                 onLaunchGame = onLaunchGame,
-                onOpenVersionSettings = onOpenVersionSettings,
                 modifier = Modifier.fillMaxWidth()
             )
             HomeGrid(
@@ -313,7 +312,8 @@ private fun ContentMenu(
 @Composable
 private fun HomepageHero(
     onLaunchGame: (Version) -> Unit,
-    onOpenVersionSettings: (Version) -> Unit,
+private fun HomepageHero(
+    onLaunchGame: (Version) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val version by VersionsManager.currentVersion.collectAsStateWithLifecycle()
@@ -325,83 +325,69 @@ private fun HomepageHero(
         modifier = modifier.height(224.dp),
         shape = MaterialTheme.shapes.extraLarge
     ) {
-        Row(
-            modifier = Modifier.fillMaxSize().padding(start = 18.dp, top = 16.dp, bottom = 12.dp, end = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.fillMaxSize().padding(start = 18.dp, top = 16.dp, bottom = 10.dp, end = 14.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Text(
-                        text = "VYRON",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
-                        text = "Ready to play?",
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                    Text(
-                        text = account?.username?.let { "Welcome back, $it" } ?: "Choose an account to get started",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2
-                    )
-                }
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(
-                        text = version?.getVersionName() ?: "No game version selected",
-                        style = MaterialTheme.typography.titleSmall,
-                        maxLines = 1
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        ScalingIconButton(
-                            onClick = {
-                                if (selectedVersion != null && selectedVersion.isValid() && !isRefreshing) {
-                                    onLaunchGame(selectedVersion)
-                                }
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_play_arrow_filled),
-                                contentDescription = stringResource(R.string.main_launch_game)
-                            )
-                        }
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            text = if (version == null) "Select a version" else "LAUNCH",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                    if (selectedVersion != null) {
-                        Text(
-                            text = "Tap version settings to manage your installation",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.clickable { onOpenVersionSettings(selectedVersion) }
-                        )
-                    }
-                }
-            }
-            Box(
-                modifier = Modifier.weight(0.82f).fillMaxHeight(),
-                contentAlignment = Alignment.Center
-            ) {
-                PetModelContent(
-                    dockedSide = LauncherSettings.launcherActionMenuSide.state,
-                    modifier = Modifier.fillMaxSize()
+            Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                Text(
+                    text = "VYRON",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
+                Text(
+                    text = "Ready to play?",
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Text(
+                    text = account?.username?.let { "Welcome back, $it" } ?: "Choose an account to get started",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth().height(112.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
+                Box(
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    PetModelContent(
+                        dockedSide = LauncherSettings.launcherActionMenuSide.state,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    ScalingIconButton(
+                        onClick = {
+                            if (selectedVersion != null && selectedVersion.isValid() && !isRefreshing) {
+                                onLaunchGame(selectedVersion)
+                            }
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_play_arrow_filled),
+                            contentDescription = stringResource(R.string.main_launch_game)
+                        )
+                    }
+                    Text(
+                        text = "LAUNCH",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
     }
 }
 
-@Composable
-private fun AccountAvatarRow(
-    modifier: Modifier = Modifier,
+r = Modifier,
     avatarSize: Dp = 48.dp,
     placeholderSize: Dp = 40.dp,
     textSpacer: Dp = 4.dp,
