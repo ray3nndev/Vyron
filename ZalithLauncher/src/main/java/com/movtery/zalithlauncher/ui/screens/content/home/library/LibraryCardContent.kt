@@ -85,19 +85,27 @@ fun LibraryCardContent(cardId: String) {
             }
         }
         val selectedVersion = currentVersion?.takeIf { it.isValid() }
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            TextButton(
-                onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ModsManager) } },
-                enabled = selectedVersion != null
-            ) { Text("Mods") }
-            TextButton(
-                onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ResourcePackManager) } },
-                enabled = selectedVersion != null
-            ) { Text("Resource Packs") }
-            TextButton(
-                onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ShadersManager) } },
-                enabled = selectedVersion != null
-            ) { Text("Shaders") }
+        Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                TextButton(
+                    onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ModsManager) } },
+                    enabled = selectedVersion != null
+                ) { Text("Mods") }
+                TextButton(
+                    onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ResourcePackManager) } },
+                    enabled = selectedVersion != null
+                ) { Text("Resource Packs") }
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                TextButton(
+                    onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ShadersManager) } },
+                    enabled = selectedVersion != null
+                ) { Text("Shaders") }
+                TextButton(
+                    onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ScreenshotsManager) } },
+                    enabled = selectedVersion != null
+                ) { Text("Screenshots") }
+            }
         }
     }
 }
