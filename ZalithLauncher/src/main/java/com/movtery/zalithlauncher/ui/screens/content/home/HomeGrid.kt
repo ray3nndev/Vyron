@@ -537,13 +537,13 @@ private fun AddWidgetDialog(
                     onAddLibrary
                 )
                 WidgetOption(
-                    "Last Played",
-                    "Show the Minecraft version you launched most recently.",
+                    "Game Logs",
+                    "View your recent Minecraft launch history.",
                     R.drawable.ic_schedule_outlined,
                     onAddLastPlayed
                 )
                 WidgetOption(
-                    "Total Playtime",
+                    "Playtime",
                     "Show your accumulated Minecraft playtime and completed sessions.",
                     R.drawable.ic_dashboard_filled,
                     onAddPlaytime
