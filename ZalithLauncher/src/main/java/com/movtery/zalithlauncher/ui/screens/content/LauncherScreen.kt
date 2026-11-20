@@ -307,11 +307,12 @@ private fun ContentMenu(
  */
 @Composable
 private fun HomepageHero(
-    onLaunchGame: (Version?) -> Unit,
+    onLaunchGame: (Version) -> Unit,
     onOpenVersionSettings: (Version) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val version by VersionsManager.currentVersion.collectAsStateWithLifecycle()
+    val selectedVersion = version
     val isRefreshing by VersionsManager.isRefreshing.collectAsStateWithLifecycle()
     val account by AccountsManager.currentAccountFlow.collectAsStateWithLifecycle()
 
@@ -353,8 +354,8 @@ private fun HomepageHero(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         ScalingIconButton(
                             onClick = {
-                                if (version != null && version.isValid() && !isRefreshing) {
-                                    onLaunchGame(null)
+                                if (selectedVersion != null && selectedVersion.isValid() && !isRefreshing) {
+                                    onLaunchGame(selectedVersion)
                                 }
                             }
                         ) {
@@ -370,12 +371,12 @@ private fun HomepageHero(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
-                    if (version != null) {
+                    if (selectedVersion != null) {
                         Text(
                             text = "Tap version settings to manage your installation",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.clickable { onOpenVersionSettings(version) }
+                            modifier = Modifier.clickable { onOpenVersionSettings(selectedVersion) }
                         )
                     }
                 }
