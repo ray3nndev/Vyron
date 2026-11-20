@@ -37,9 +37,8 @@ import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.game.version.installed.Version
 import com.movtery.zalithlauncher.game.version.installed.VersionsManager
 import com.movtery.zalithlauncher.ui.screens.NormalNavKey
-import com.movtery.zalithlauncher.ui.screens.content.home.version.LocalHomeCardVersionSettings
 
-val LocalHomeCardVersionManager = staticCompositionLocalOf<(Version, NormalNavKey.Versions) -> Unit> { _, _ -> }
+val LocalHomeCardVersionManager = staticCompositionLocalOf<(Version, NormalNavKey.Versions) -> Unit> { { _, _ -> } }
 
 /** Compact overview of the installed Minecraft library. */
 @Composable
@@ -47,7 +46,6 @@ val LocalHomeCardVersionManager = staticCompositionLocalOf<(Version, NormalNavKe
 fun LibraryCardContent(cardId: String) {
     val versions by VersionsManager.versions.collectAsStateWithLifecycle()
     val currentVersion by VersionsManager.currentVersion.collectAsStateWithLifecycle()
-    val openVersionSettings = LocalHomeCardVersionSettings.current
     val openVersionManager = LocalHomeCardVersionManager.current
 
     Column(
