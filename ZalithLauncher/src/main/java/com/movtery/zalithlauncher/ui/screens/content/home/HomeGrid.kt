@@ -449,14 +449,19 @@ private fun AddWidgetDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.home_widget_add_title)) },
         text = {
-            Column(modifier = Modifier.fillMaxWidth().heightIn(max = 440.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(modifier = Modifier.fillMaxWidth().heightIn(max = 500.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
-                    text = "Build your home screen",
-                    style = MaterialTheme.typography.titleSmall,
+                    text = "YOUR WIDGETS",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "Add to your home screen",
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Choose a widget to add. You can move or remove it later in edit mode.",
+                    text = "Six widgets are available. Scroll to explore them, then arrange your layout in edit mode.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
