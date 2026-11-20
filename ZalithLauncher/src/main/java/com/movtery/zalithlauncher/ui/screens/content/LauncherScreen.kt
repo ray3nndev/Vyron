@@ -114,6 +114,7 @@ import com.movtery.zalithlauncher.ui.screens.content.home.rememberActionMenuDrag
 import com.movtery.zalithlauncher.ui.screens.content.home.server.LocalServerCardQuickPlay
 import com.movtery.zalithlauncher.ui.screens.content.home.version.LocalHomeCardLauncher
 import com.movtery.zalithlauncher.ui.screens.content.home.version.LocalHomeCardVersionSettings
+import com.movtery.zalithlauncher.ui.screens.content.home.library.LocalHomeCardVersionManager
 import com.movtery.zalithlauncher.ui.screens.content.settings.layouts.CardPosition
 import com.movtery.zalithlauncher.ui.screens.content.settings.layouts.rememberSettingsCardShape
 import com.movtery.zalithlauncher.viewmodel.ScreenBackStackViewModel
@@ -133,6 +134,7 @@ private val ActionMenuOuterPadding = 12.dp
 fun LauncherScreen(
     backStackViewModel: ScreenBackStackViewModel,
     navigateToVersions: (Version) -> Unit,
+    navigateToVersionManager: (Version, NormalNavKey.Versions) -> Unit,
     onLaunchGame: (Version?) -> Unit,
     onQuickPlayServer: (Version?, String) -> Unit,
     onOpenLink: (String) -> Unit,
@@ -223,7 +225,8 @@ fun LauncherScreen(
                             onLaunchGame(version)
                         },
                         onQuickPlayServer = onQuickPlayServer,
-                        onOpenVersionSettings = navigateToVersions
+                        onOpenVersionSettings = navigateToVersions,
+                        onOpenVersionManager = navigateToVersionManager
                     )
                 }
 
@@ -270,6 +273,7 @@ private fun ContentMenu(
     onLaunchGame: (Version) -> Unit,
     onQuickPlayServer: (Version?, String) -> Unit,
     onOpenVersionSettings: (Version) -> Unit,
+    onOpenVersionManager: (Version, NormalNavKey.Versions) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val ctx = rememberAnimatedContext(isVisible = isVisible)
@@ -278,6 +282,7 @@ private fun ContentMenu(
     CompositionLocalProvider(
         LocalHomeCardLauncher provides onLaunchGame,
         LocalHomeCardVersionSettings provides onOpenVersionSettings,
+        LocalHomeCardVersionManager provides onOpenVersionManager,
         LocalServerCardQuickPlay provides onQuickPlayServer
     ) {
         Column(
