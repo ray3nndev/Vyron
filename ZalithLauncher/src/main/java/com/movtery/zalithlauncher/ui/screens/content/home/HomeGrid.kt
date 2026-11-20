@@ -521,13 +521,13 @@ private fun AddWidgetDialog(
                 WidgetOption(
                     stringResource(R.string.home_widget_add_server_title),
                     stringResource(R.string.home_widget_add_server_description),
-                    R.drawable.ic_videogame_asset_outlined,
+                    R.drawable.ic_dns_outlined,
                     onAddServer
                 )
                 WidgetOption(
                     stringResource(R.string.home_widget_add_ram),
                     stringResource(R.string.home_widget_add_ram_description),
-                    R.drawable.ic_settings_filled,
+                    R.drawable.ic_dashboard_outlined,
                     onAddRam
                 )
                 WidgetOption(
@@ -539,13 +539,13 @@ private fun AddWidgetDialog(
                 WidgetOption(
                     "Last Played",
                     "Show the Minecraft version you launched most recently.",
-                    R.drawable.ic_videogame_asset_outlined,
+                    R.drawable.ic_schedule_outlined,
                     onAddLastPlayed
                 )
                 WidgetOption(
                     "Total Playtime",
                     "Show your accumulated Minecraft playtime and completed sessions.",
-                    R.drawable.ic_play_arrow_filled,
+                    R.drawable.ic_dashboard_filled,
                     onAddPlaytime
                 )
             }
