@@ -27,14 +27,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.movtery.zalithlauncher.R
+import com.movtery.zalithlauncher.game.version.installed.Version
 import com.movtery.zalithlauncher.game.version.installed.VersionsManager
+import com.movtery.zalithlauncher.ui.screens.NormalNavKey
 import com.movtery.zalithlauncher.ui.screens.content.home.version.LocalHomeCardVersionSettings
+
+val LocalHomeCardVersionManager = staticCompositionLocalOf<(Version, NormalNavKey.Versions) -> Unit> { _, _ -> }
 
 /** Compact overview of the installed Minecraft library. */
 @Composable
@@ -43,6 +48,7 @@ fun LibraryCardContent(cardId: String) {
     val versions by VersionsManager.versions.collectAsStateWithLifecycle()
     val currentVersion by VersionsManager.currentVersion.collectAsStateWithLifecycle()
     val openVersionSettings = LocalHomeCardVersionSettings.current
+    val openVersionManager = LocalHomeCardVersionManager.current
 
     Column(
         modifier = Modifier
@@ -80,11 +86,20 @@ fun LibraryCardContent(cardId: String) {
                 )
             }
         }
-        TextButton(
-            onClick = { currentVersion?.takeIf { it.isValid() }?.let(openVersionSettings) },
-            enabled = currentVersion?.isValid() == true
-        ) {
-            Text("Manage Mods · Resource Packs · Shaders")
+        val selectedVersion = currentVersion?.takeIf { it.isValid() }
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            TextButton(
+                onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ModsManager) } },
+                enabled = selectedVersion != null
+            ) { Text("Mods") }
+            TextButton(
+                onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ResourcePackManager) } },
+                enabled = selectedVersion != null
+            ) { Text("Resource Packs") }
+            TextButton(
+                onClick = { selectedVersion?.let { openVersionManager(it, NormalNavKey.Versions.ShadersManager) } },
+                enabled = selectedVersion != null
+            ) { Text("Shaders") }
         }
     }
 }
