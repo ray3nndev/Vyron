@@ -337,12 +337,31 @@ private fun HomepageHero(
                     text = "Ready to play?",
                     style = MaterialTheme.typography.headlineSmall
                 )
-                Text(
-                    text = account?.username?.let { "Welcome back, $it" } ?: "Choose an account to get started",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1
-                )
+                Surface(
+                    shape = RoundedCornerShape(50),
+                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Text(
+                            text = account?.username ?: "NO PLAYER SELECTED",
+                            style = MaterialTheme.typography.labelMedium,
+                            maxLines = 1
+                        )
+                        if (account != null) {
+                            Text(
+                                text = "• " + getAccountTypeName(account),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1
+                            )
+                        }
+                    }
+                }
             }
             Row(
                 modifier = Modifier.fillMaxWidth().height(112.dp),
